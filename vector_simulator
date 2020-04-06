@@ -1,0 +1,203 @@
+/******************************************************************************
+Simple Vector C++ Vector Class simulation using an array.
+
+*******************************************************************************/
+#include<iostream>
+using namespace std;
+#define MAX_CAPACITY 6
+
+class Vector
+{
+   int arr[MAX_CAPACITY];
+   int size;
+   
+   public: Vector();
+           int getSize() {return size;}
+           void display();
+           void insert(int elem);
+           void insert(int pos, int elem);
+           void erase(int key);
+           void erase(void);
+};
+
+//constructor
+Vector::Vector()
+{
+    size = 0;
+    for(int i=0;i<MAX_CAPACITY;i++)
+        arr[i] = 0; 
+}
+
+void Vector::display()
+{
+    cout<<"------------DISPLAY VECTOR ELEMENTS--------------------------------"<<endl;
+    cout<<"Vector size : "<<getSize()<<endl;
+    cout<<"Vecor elements :";
+    for(int i=0; i < size; i++)
+    {
+      cout<<" "<<arr[i];
+    }
+    cout<<endl;
+    cout<<"--------------------------------------------------------------------"<<endl;
+}
+
+/* Inserts elements at the end of the vector */
+void Vector::insert(int elem)
+{
+    if(size < MAX_CAPACITY)
+    {
+        arr[size++] = elem;
+        cout<<elem<<" inserted! Remaining capacity = "<<MAX_CAPACITY - size<<endl;
+    }
+    else
+    {
+        cout<<"Cannot insert element "<<elem<< "! MAX size reached"<<endl;
+        cout<<"Please remove few elements and then retry!"<<endl;
+    }
+}
+
+
+/* Inserts element at the specified position */
+void Vector::insert(int pos, int elem)
+{
+    if(pos <= 0)
+    {
+       cout<<"Inpur error! Enter a position greater than 0"<<endl;  
+       return;
+    }
+    else if((pos - size) > 1)
+    {
+        cout <<"Input error! Can't insert at the given position. Number of elements = "<<size<<endl; 
+        cout<<"Insert at position = "<<size+1<<" or lesser"<<endl;
+        return;
+    }
+    
+    if(size < MAX_CAPACITY)
+    {
+                int i = size;
+                while(i>pos-1 && i >0)
+                {
+                    arr[i] = arr[i-1];
+                    i--;
+                }
+                arr[i] = elem;
+            size++;
+        cout<<elem<<" inserted at position "<<pos<<". Remaining capacity = "<<MAX_CAPACITY - size<<endl;
+    }
+    else
+    {
+        cout<<"Cannot insert element "<<elem<< "! MAX size reached"<<endl;
+        cout<<"Please remove few elements and then retry!"<<endl;
+    }
+}
+
+/* Remove all elements with value that equals key. Size of the array reduced after removal */
+void Vector::erase(int key)
+{
+    int i=0;
+    int j=0;
+    bool found = false;
+    while(i<size)
+      {
+          if(arr[i] == key)  //if key found
+           {
+               j = i+1;
+               while(j<size)
+                {
+                   arr[j-1] = arr[j];
+                   j++;      
+                }
+            size--;    
+            found = true;
+           }
+           else{
+                 i++;
+               }
+          
+      }
+      
+      if(found)
+         cout<<"Vector erase : Removed all occurance of element  "<<key<<endl;
+      else
+         cout<<"Vector erase : Element "<<key<<" not found "<<endl; 
+}
+
+/* Erase all elements of the arry : Element size = 0 */
+void Vector::erase()
+{
+    size=0;
+}
+
+/ * Main program to test the Vector class */
+int main()
+{
+    Vector vec;
+    
+    /* Vector insert or push-back test */
+    vec.insert(10);
+    vec.insert(10);
+    vec.insert(20);
+    vec.insert(30);
+    vec.insert(40);
+    vec.insert(50);
+    
+    /* Capacity exceed test */
+    vec.insert(60);
+    vec.display();
+    
+    /*Erase by element test */
+    vec.erase(30);
+    vec.erase(60);
+    vec.display();
+    
+    vec.insert(60);
+    vec.display();
+    vec.erase(10);
+    vec.display();
+    
+    vec.insert(60);
+    vec.display();
+    vec.erase(60);
+    vec.display();
+    
+    vec.insert(60);
+    vec.insert(70);
+    vec.display();
+    
+    vec.erase(70);
+    vec.display();
+    vec.erase(50);
+    vec.display();
+    
+    vec.erase();
+    vec.display();
+    
+    vec.insert(10);
+    vec.display();
+    
+    vec.erase(20);
+    vec.erase(10);
+    vec.display();
+   
+   /* Insert at the specified position test including negative test cases */
+    vec.insert(0,10);
+    vec.insert(-2,10);
+    vec.insert(2,10);
+    
+    vec.insert(10);
+    vec.display();
+    vec.insert(1,20);
+    vec.display();
+    vec.insert(1,50);
+    vec.display();
+    vec.erase(10);
+    vec.display();
+    vec.insert(2,30);
+    vec.display();
+    vec.insert(4,40);
+    vec.display();
+    vec.insert(6,60);
+    vec.display();
+    
+    return 0;
+}
