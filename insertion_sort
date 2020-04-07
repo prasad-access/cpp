@@ -1,0 +1,102 @@
+/* Program to sort an array using insertion sort */
+
+#include<iostream>
+using namespace std;
+#define MAX_CAPACITY 10
+
+class Array{
+    private:
+              int arr[MAX_CAPACITY];
+              int size;
+              void insertion_sort();
+              //void bubble_sort();
+              //void selection_sort();
+              public: Array();
+                      void input();
+                      void display();
+                      void sort();
+};
+
+Array::Array():size(0)
+{
+}
+
+void Array::insertion_sort()
+{
+/* Main logic for insertion sort */
+/* Begin the array with arr[0] being considered sorted : LHS
+   Rest of the array is considered unsorted i.e arr[1] to arr[n-1] : RHS
+   Take element one by one from the unsorted array(RHS) and place in the sorted array
+   by maintaining the elements sorted.
+   
+   Input           :  4 3 1 2 5 7 6    arr[0] sorted, arr[1] to arr[6]  unsorted
+   1st Pass output :  3 4 1 2 5 7 6    arr[0] to arr[1] sorted, arr[2] to arr[6] unsorted 
+   2nd Pass output :  1 3 4 2 5 7 6    arr[0] to arr[2] sorted, arr[3] to arr[6] unsorted
+   3rd Pass output :  1 2 3 4 5 7 6    arr[0] to arr[3] sorted, arr[4] to arr[6] unsorted
+   4th Pass output :  1 2 3 4 5 7 6    arr[0] to arr[4] sorted, arr[5] to arr[6] unsorted
+   5th Pass output :  1 2 3 4 5 7 6    arr[0] to arr[5] sorted, arr[6] unsorted
+   6th Pass output :  1 2 3 4 5 6 7    arr[0] to arr[6] sorted,
+   
+   Number of passes = number of elements = 6
+*/
+    int elem_to_place;
+    bool elem_updated;
+
+    for(int i=1; i<size;i++)
+    {
+      elem_to_place = arr[i];
+      elem_updated = false;
+      int j;
+       
+      for(j=i-1; j>=0 && arr[j] > elem_to_place; j--)
+      {
+          arr[j+1] = arr[j];
+          elem_updated = true;
+      }
+      
+      if(elem_updated)
+      arr[j+1] = elem_to_place;
+    }
+}
+
+void Array::input()
+{
+    cout<<"Enter the size of the input array : ";
+    cin>>size;
+    if(size<1 || size > MAX_CAPACITY) 
+    {
+        cout<<"Input error ! size must be greater than 1 and should not exceed "<<MAX_CAPACITY<<endl;
+        exit(0);
+    }
+    cout<<"\nEnter the "<<size<<" elements of the array"<<endl;
+    for(int i=0;i<size;i++)
+    {
+        cin>>arr[i];
+    }
+    
+    
+}
+
+  void Array::display()
+  {
+    cout<<"Elements of the array :";
+    for(int i=0;i<size;i++)     
+        cout<<"  "<<arr[i];
+    cout<<endl;
+  }
+  
+  
+  void Array::sort()
+  {
+    this->insertion_sort();   
+  }
+  
+int main()
+{
+    Array arr;
+    arr.input();
+    arr.display();
+    arr.sort();
+    arr.display();
+    return 0;
+}
