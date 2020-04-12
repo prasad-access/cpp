@@ -9,8 +9,9 @@ using namespace std;
 class Array{
     private :int arr[MAX_CAPACITY];
              int size;
-             int bin_search(int);
-             int bin_search_rec(int low, int high,int key);
+             void bin_search(int);
+             void bin_search_rec(int low, int high,int key);
+             void validate();
     public  : Array():size(0)
               {
               }
@@ -19,6 +20,18 @@ class Array{
               void display();
               void search();
 };
+
+  void Array::validate()
+  {
+      for(int i=1;i<size;i++)
+      {
+          if(arr[i]<arr[i-1])
+		  {
+            cout<<"Input Error! Enter the elements in sorted order"<<endl;
+			exit(0);
+		  }
+      }    
+  }
 
    void Array::input()
    {
@@ -37,6 +50,7 @@ class Array{
           cin>>arr[i];
        }
        cout<<endl;
+       validate();
    }
    
    void Array::display(){
@@ -48,7 +62,7 @@ class Array{
        cout<<endl;
    }
    
-   int Array::bin_search(int key)
+   void Array::bin_search(int key)
    {
        int low = 0;
        int high = size-1;
@@ -76,23 +90,22 @@ class Array{
        }
        
        if(found)
-         //cout<<key<<" found at position : "<<index+1<<endl;
-         return index+1;
+         cout<<key<<" found at position : "<<index+1<<endl;
        else
-         //cout<<"Element "<<key<<" not found"<<endl;
-         return KEY_NOT_FOUND;
+         cout<<"Element "<<key<<" not found"<<endl;
    }
    
    
-   int Array::bin_search_rec(int low, int high,int key)
+   void Array::bin_search_rec(int low, int high,int key)
+   
    {
        if(low <= high)
        {
          int mid=(int)(low+high)/2;
          if(arr[mid]==key)
            {
-               //cout<<"Found key at index "<<mid+1;
-               return mid+1;
+               cout<<"Found key at index "<<mid+1;
+               return;
            }
         else if(arr[mid]>key)
              {
@@ -104,8 +117,7 @@ class Array{
             }
        }
        else
-           return KEY_NOT_FOUND;
-           //cout<<"Element "<<key<<" not found"<<endl;
+           cout<<"Element "<<key<<" not found"<<endl;
    }
    
    void Array::search()
@@ -113,13 +125,8 @@ class Array{
        int key;
        cout<<"Enter the key element to be searched"<<endl;
        cin>>key;
-       // this -> bin_search(key);
-       int index = this -> bin_search_rec(0,size-1,key);
-      
-       if(index == KEY_NOT_FOUND)
-                cout<<"Element "<<key<<" not found"<<endl;
-       else
-            cout<<"Found element at "<<key<<" at index "<<index;
+      // this -> bin_search(key);
+       this -> bin_search_rec(0,size-1,key);
    }
 
 int main()
