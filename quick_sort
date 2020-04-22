@@ -1,0 +1,131 @@
+/**************************************************************************************
+/*Program to implement Quick Sort  using partitioning that uses last element as pivot */
+/**************************************************************************************/
+#include <iostream>
+using namespace std;
+#define MAX_CAPACITY 10
+
+
+class Array{
+    private :int arr[MAX_CAPACITY];
+             int size;
+             void QuickSort(int,int);
+             int Partition(int,int,int);
+    public  : Array():size(0)
+              {
+                for(int i=0;i<MAX_CAPACITY;i++) arr[i]=0;
+              }
+              
+              void input();
+              void display();
+              void sort();
+};
+
+
+
+
+   void Array::input()
+   {
+       cout<<"Enter the size of elements : ";
+       cin >> size;
+       
+       if(size < 1 || size > MAX_CAPACITY)
+       {
+        cout<<"Please enter correct size in the range  \"1 <= size <= "<<MAX_CAPACITY<<endl;   
+        exit(0);
+       }
+       
+       cout<<"Enter the "<<size<<" elements"<<endl;
+       for(int i=0;i<size;i++)
+       {
+          cin>>arr[i];
+       }
+       cout<<endl;
+       
+   }
+   
+   void Array::display(){
+       cout<<"Elements of the array :";
+       for(int i=0; i<size;i++)
+       {
+         cout<<" "<<arr[i];
+       }
+       cout<<endl;
+   }
+   
+   void swap(int * var1, int * var2)
+   {
+   	int temp;
+   	temp = *var1;
+   	*var1 = *var2;
+   	*var2 = temp;
+   }
+    
+ /* Partition algorithm with last element as pivot
+   1) Initilise lower lound(lb) and upper bound(ub) elements
+   2) Increment the lower bound(lb) as long as the element is less than the pivot element.
+   3) Decreemt the upper bound(ub) as long as the element is greater than pivot element
+   4) Swap elements of lb and ub 
+   6) Repeat steps above till lb is no longer less than ub
+   7) Swap element if lower bound element is greater than pivot element
+   8) Return the position of the lower bound index 
+  */
+    
+ int Array::Partition(int low, int high, int pivot)
+   {
+       int lb = low;   //lower bound index
+       int ub = high;  //upper bound index
+
+       //20 10
+
+       cout<<"In partition ("<<low<<","<<high<<","<<pivot<<")"<<endl;
+
+       while(lb < ub)
+       {
+         while(arr[lb] < arr[pivot])
+           lb++;
+
+         while(ub > 0 && arr[ub] > arr[pivot])
+           ub--;
+
+         if(lb < ub)
+           {
+               swap(arr[lb], arr[ub]);
+           }
+        }
+
+        if(arr[lb] > arr[pivot])
+                swap(arr[lb], arr[pivot]);
+
+           return lb;
+    }
+
+   
+   void Array::QuickSort(int low, int high)
+   {
+       if(low<high)
+       {
+       int pivot = high;   
+       int index = Partition(low,high-1,pivot);
+       QuickSort(low,index-1);
+       QuickSort(index+1,high);
+       }
+       return;
+   }
+   
+void Array::sort()
+{
+    QuickSort(0,size-1);
+}
+
+int main()
+{
+    Array arr;
+    arr.input();
+    arr.display();
+    arr.sort();
+    cout<<"********After sorting************"<<endl;
+    arr.display();
+   
+    return 0; 
+}
