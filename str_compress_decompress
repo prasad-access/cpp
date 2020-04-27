@@ -1,0 +1,193 @@
+/*
+   Program to compress and decompress strings
+   Given a decompressed string  return a compressed string. E.g :  aaaaabbbbccc  -> a5b4c3
+   Given a compressed string return a decompressed string. E.g:    a5b4c3 -> aaaaabbbbccc
+*/
+
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+
+void input(string *str)
+{
+        cout<<"Enter the string to be converted : ";
+        cin>>*str;
+        cout<<endl;
+}
+
+bool isaplha(char ch)
+{
+	return (ch >= 'a' && ch <= 'z' || ch >= 'A' && ch <= 'Z');
+}
+
+bool isdigit(char ch)
+{
+        return (ch >= '0' && ch <='9');
+}
+
+
+/*Validity of input string to be compressed */
+bool isValid_toCompress_input(string str)
+{
+	bool validity = true;
+	int size = str.size();
+    for(int i=0;i<size;i++)
+        {
+        	if(isdigit(str[i]))
+        	{
+        		validity = false;
+        		break;
+			}
+    	}
+    	
+    	if(validity == false)
+    	{
+		
+    	   cout<<"Input string invalid !!"<<endl;
+		   cout<<"Please enter only alphabet sequence to be compressed. No digits allowed !!"<<endl;
+		   cout<<"Example : aabbbcccc,    aabbbccdddddd ,  etc"<<endl;
+        }
+    	return validity;
+}
+
+/* Validity of input string to be decompressed */
+bool isValid_toDecompress_input(string str)
+{
+     int size = str.size();
+	 int i,j;
+	 bool validity = true;
+	 
+	 for(i=0,j=i+1; i<size-1 && j<size; i=j,j=i+1)
+	 {
+	 	if(isdigit(str[i]) || isaplha(str[j]))
+	 	{
+	 	  validity = false;
+	 	  break;
+		}
+		
+	    while(j<size)
+		{
+	     if(isdigit(str[j]))
+	        j++;
+	     else
+		    break;
+	  	}
+	 }
+	  
+	  	if(validity == false)
+    	{
+	  	   cout<<"Input string invalid !!"<<endl;
+		   cout<<"Please enter a compressed string in below format!"<<endl;
+		   cout<<"Enter sequence with alphabet followed by digit!!"<<endl;
+		   cout<<"Example : a5b2, a15b12 , a10b4c5 etc..."<<endl;
+        }
+      	return validity;
+}
+
+/* Main logic of compress function :  aaaaabbbcc -> a5b3c2 */
+string compress(string input)
+{
+   int size = input.size();
+   int i, j;
+   int count;
+   string output="";
+   char buf[10];
+
+   for(i=0; i<size; i=j)
+   {
+         count = 1;
+         for(j=i+1;j<size;j++)
+          {
+                if(input[j] == input[i])
+                  count++;
+                else
+                    break;
+          }
+
+          sprintf(buf,"%c%d",input[i],count);
+          output = output + string(buf);
+   }
+
+        return output;
+}
+
+/* Main logic of decompress function :   a5b3c2 ->  aaaaabbbcc */
+string decompress(string input)
+{
+   string output = "";
+   int i=0;
+   int j=1;
+   int size = input.size();
+   int digit;
+   char buf[10];
+
+   for(i=0;i<size;i=j)
+        {
+          digit = 0;
+          for(j=i+1;j<size;j++)
+          {
+                if(isdigit(input[j]))
+                 {
+                  sprintf(buf,"%c",input[j]);
+                  digit = digit*10 + atoi(buf);
+                 }
+                else
+                    break;
+          }
+           output = output + string(digit,input[i]);       //repeates input[i]  number of times specified by digit
+        }
+     return output;
+}
+
+
+void display(string str)
+{
+  cout<<"The converted string is : "<<str<<endl;
+}
+
+
+void mainLoop()
+{
+  char opt;
+  string in_str ="";
+  string out_str ="";
+  do
+    {
+      cout<<"________________________________________________________"<<endl;
+      cout<<"Enter the choice from below options."<<endl;
+      cout<<"1 : String Compression "<<endl;
+      cout<<"2 : string Decompression "<<endl;
+      cout<<"Press any other key to exit"<<endl;
+      cin>>opt;
+      cout<<"The option chosen is : "<<opt<<endl;
+
+        switch(opt)
+         {
+                 case '1' :   input(&in_str);
+                 			        if(isValid_toCompress_input(in_str))
+                 			        {
+                          	     out_str = compress(in_str);
+                           	     display(out_str);
+                       		     }
+                              break;
+                 case '2' :   input(&in_str);
+                              if(isValid_toDecompress_input(in_str))
+                              {
+                               out_str = decompress(in_str);
+                               display(out_str);
+                        	    }
+                              break;
+                 default :  cout<<"Exiting the program !"<<endl;
+				                    exit(0);
+         }
+
+    }while(opt == '1' || opt == '2');
+}
+
+int main()
+{
+  mainLoop();
+  return 0;
+}
+                                
+                                
