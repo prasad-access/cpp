@@ -1,0 +1,126 @@
+/* Program to count occurance of characters in a given string in the order of their occurance */
+/* E.g geeksforgeeks :  g2e4k2s2f1o1r1 */
+
+
+#include<iostream>
+#include<cstdlib>
+#include<string>
+#define MAX 127       /* ASCII table contains 127 elements */
+#define VISITED 0
+using namespace std;
+
+
+void input(string *str)
+{
+        cout<<"Enter the string to be converted : ";
+        cin>>*str;
+        cout<<endl;
+}
+
+/*Validity of input string to be counted. No digits allowed */
+/* For e.g  a0000 -> a104  (this is ambiguos whether a repeates 104 times  or 0 repeats 4 times ?
+   So setting rules for no digits to be allowed */
+   
+bool isValid_toCompress_input(string str)
+{
+	bool validity = true;
+	int size = str.size();
+    for(int i=0;i<size;i++)
+        {
+        	if(isdigit(str[i]))
+        	{
+        		validity = false;
+        		break;
+			}
+    	}
+    	
+    	if(validity == false)
+    	{
+		
+    	   cout<<"Input string invalid !!"<<endl;
+		   cout<<"Please enter only alphabet sequence. No digits allowed !!"<<endl;
+		   cout<<"Example : geeksforgeeks,    aabbbccdddddd ,  etc"<<endl;
+        }
+    	return validity;
+}
+
+
+/* Main logic of compress function :  aaaaabbbcc -> a5b3c2 */
+string compress(string input)
+{
+ /* Inititalise array of ascii table with 0 */
+ int arr[MAX];
+ for(int i='A';i<'z';i++)
+  {
+  	arr[i] = 0;
+  }
+ 
+ /* Parse the input string and store the occurance count for each character of the string*/
+ int size = input.size();
+ char ch;
+ for(int i=0;i<size;i++)
+  {
+  	ch = input[i];
+  	arr[ch] +=1;
+  }
+ 
+ 
+ string output = "";
+ for(int i=0;i<size;i++)
+  {
+  	ch = input[i];
+  	if(arr[ch] != VISITED)
+  	{
+  	output = output + string(1,ch) + to_string(arr[ch]);
+  	arr[ch] = VISITED;
+  	}
+  }
+ 
+ return output;
+}
+
+
+void display(string str)
+{
+  cout<<"The converted string is : "<<str<<endl;
+}
+
+
+void mainLoop()
+{
+  char opt;
+  string in_str ="";
+  string out_str ="";
+  do
+    {
+      cout<<"________________________________________________________"<<endl;
+      cout<<"Enter the choice from below options."<<endl;
+      cout<<"1 : Enter alphabet string for count of occurance"<<endl;
+      cout<<"Press any other key to exit"<<endl;
+      cin>>opt;
+      cout<<"The option chosen is : "<<opt<<endl;
+
+        switch(opt)
+         {
+                 case '1' :   	input(&in_str);
+                 			        if(isValid_toCompress_input(in_str))
+                 			        {
+                          	     	  out_str = compress(in_str);
+                           	     	  display(out_str);
+                       		     	}
+                             	    break;
+
+                 default  :  	cout<<"Exiting the program !"<<endl;
+				            	exit(0);
+         }
+
+    }while(opt == '1' || opt == '2');
+}
+
+int main()
+{
+  mainLoop();
+  return 0;
+}
+                                
+                                
