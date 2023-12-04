@@ -42,13 +42,13 @@ void Array::insertion_sort()
     int elem_to_place;
     bool elem_updated;
 
-    for(int i=1; i<size;i++)
+    for(int i=1; i<size;i++)                             //number of passes
     {
       elem_to_place = arr[i];
       elem_updated = false;
       int j;
        
-      for(j=i-1; j>=0 && arr[j] > elem_to_place; j--)
+      for(j=i-1; j>=0 && arr[j] > elem_to_place; j--)   //loop to maintain the sorted order of elements.
       {
           arr[j+1] = arr[j];
           elem_updated = true;
