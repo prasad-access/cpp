@@ -2,8 +2,11 @@
 
 /* Description of Insertion sort :  Insertion sort is a simple sorting algorithm that works similar to the way you sort playing cards in your hands. 
 The array is virtually split into a sorted and an unsorted part. 
-Values from the unsorted part are picked and placed at the correct position in the sorted part.
-*/
+Values from the unsorted part are picked and placed at the correct position in the sorted part.  */
+
+/*Interview question : If there are stream of integers coming and all the data is not given upfront, which sorting algorithm will you use ?   --> Insertion sort 
+Because even if data is coming as algorithm is running, we just have to keep inserting it in its right position. Hence its an Online algorithm. */
+
 
 #include<iostream>
 using namespace std;
