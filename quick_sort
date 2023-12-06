@@ -62,7 +62,7 @@ class Array{
    }
     
  /* Partition algorithm with last element as pivot
-   1) Initilise lower lound(lb) and upper bound(ub) elements
+   1) Initilise lower bound(lb) and upper bound(ub) elements
    2) Increment the lower bound(lb) as long as the element is less than the pivot element.
    3) Decreemt the upper bound(ub) as long as the element is greater than pivot element
    4) Swap elements of lb and ub 
@@ -75,8 +75,6 @@ class Array{
    {
        int lb = low;   //lower bound index
        int ub = high;  //upper bound index
-
-       //20 10
 
        cout<<"In partition ("<<low<<","<<high<<","<<pivot<<")"<<endl;
 
