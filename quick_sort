@@ -78,6 +78,7 @@ class Array{
 
        cout<<"In partition ("<<low<<","<<high<<","<<pivot<<")"<<endl;
 
+       //Sort left and right subarrays w.r.t pivot element
        while(lb < ub)
        {
          while(arr[lb] < arr[pivot])
@@ -90,8 +91,9 @@ class Array{
            {
                swap(arr[lb], arr[ub]);
            }
-        }
+        } 
 
+       // After the left & right subarrays are sorted, handle the case where the element at index lb is greater than the pivot and put the pivot in the right position.
         if(arr[lb] > arr[pivot])
                 swap(arr[lb], arr[pivot]);
 
